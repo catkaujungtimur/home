@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catka Ujung Timur</title>
+<style>
+  :root{
+    --bg:#f4f6fb; --surface:#ffffff; --surface2:#eef1f8; --text:#141a2e; --muted:#5d6785;
+    --border:#e1e6f2; --accent:#4f6bff; --accent2:#7c4dff; --shadow:0 6px 24px rgba(30,45,100,.08);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0c1020; --surface:#151b33; --surface2:#1c2342; --text:#eaeefc; --muted:#98a2c8;
+    --border:#252d52; --accent:#7b93ff; --accent2:#a78bfa; --shadow:0 6px 24px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;margin:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);
+    line-height:1.5;transition:background .25s,color .25s;min-height:100vh}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px 56px}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:#fff;font-weight:800;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:var(--shadow)}
+  .brand h1{font-size:1.1rem;letter-spacing:.2px}
+  .brand small{color:var(--muted);font-size:.78rem}
+
+  /* Tombol ON/OFF tema */
+  .switch{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted);cursor:pointer;user-select:none}
+  .switch button{position:relative;width:52px;height:28px;border-radius:99px;border:1px solid var(--border);
+    background:var(--surface2);cursor:pointer;transition:background .25s}
+  .switch button::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.3);transition:transform .25s}
+  :root[data-theme="dark"] .switch button{background:var(--accent)}
+  :root[data-theme="dark"] .switch button::after{transform:translateX(24px)}
+
+  .hero{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:20px;
+    padding:28px 22px;margin:6px 0 22px;box-shadow:var(--shadow)}
+  .hero h2{font-size:1.5rem;margin-bottom:6px}
+  .hero p{opacity:.92;max-width:560px;font-size:.95rem}
+  .stats{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.18);border-radius:12px;padding:8px 14px;font-size:.82rem}
+  .stat b{display:block;font-size:1.2rem}
+
+  .tools{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+  .search{width:100%;padding:13px 16px;border-radius:14px;border:1px solid var(--border);
+    background:var(--surface);color:var(--text);font-size:1rem;outline:none}
+  .search:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+  .chip{flex:none;padding:7px 14px;border-radius:99px;border:1px solid var(--border);background:var(--surface);
+    color:var(--muted);font-size:.84rem;cursor:pointer}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+  .card{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);
+    border-radius:16px;padding:16px;text-decoration:none;color:inherit;box-shadow:var(--shadow);
+    transition:transform .18s,border-color .18s}
+  .card:hover{transform:translateY(-3px);border-color:var(--accent)}
+  .top{display:flex;align-items:center;gap:12px}
+  .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:1.4rem;background:var(--surface2)}
+  .card h3{font-size:1rem}
+  .tag{font-size:.72rem;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .card p{color:var(--muted);font-size:.88rem;flex:1}
+  .open{font-size:.84rem;font-weight:600;color:var(--accent)}
+  .empty{text-align:center;color:var(--muted);padding:40px 0;display:none}
+  footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:36px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">C</div>
+      <div><h1>Catka Ujung Timur</h1><small>Kumpulan alat kerja</small></div>
+    </div>
+    <label class="switch">
+      <span id="themeLabel">Terang</span>
+      <button id="themeBtn" aria-label="Ganti tema terang/gelap" role="switch" aria-checked="false"></button>
+    </label>
+  </header>
+
+  <section class="hero">
+    <h2>Semua alat kerja, satu pintu.</h2>
+    <p>Pilih alat yang kamu butuhkan di bawah ini. Gunakan pencarian atau kategori untuk menemukannya lebih cepat.</p>
+    <div class="stats">
+      <div class="stat"><b id="statCount">0</b>Total web</div>
+      <div class="stat"><b id="statCat">0</b>Kategori</div>
+    </div>
+  </section>
+
+  <div class="tools">
+    <input class="search" id="q" type="search" placeholder="Cari web atau alat...">
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">Tidak ada yang cocok dengan pencarianmu.</div>
+
+  <footer>© Catka Ujung Timur</footer>
+</div>
+
+<script>
+/* ====== EDIT BAGIAN INI SAJA ====== */
+const OPEN_IN_NEW_TAB = true;   // true = tab baru, false = tab yang sama
+
+const SITES = [
+  // { judul, deskripsi, url, kategori, ikon }
+  {judul:"Web Contoh 1",  desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-1/",  cat:"Laporan",  icon:"📊"},
+  {judul:"Web Contoh 2",  desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-2/",  cat:"Laporan",  icon:"📝"},
+  {judul:"Web Contoh 3",  desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-3/",  cat:"Kalkulator", icon:"🧮"},
+  {judul:"Web Contoh 4",  desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-4/",  cat:"Kalkulator", icon:"⚙️"},
+  {judul:"Web Contoh 5",  desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-5/",  cat:"Data",     icon:"🗂️"},
+  {judul:"Web Contoh 6",  desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-6/",  cat:"Data",     icon:"📈"},
+  {judul:"Web Contoh 7",  desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-7/",  cat:"Jadwal",   icon:"📅"},
+  {judul:"Web Contoh 8",  desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-8/",  cat:"Jadwal",   icon:"⏱️"},
+  {judul:"Web Contoh 9",  desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-9/",  cat:"Dokumen",  icon:"📄"},
+  {judul:"Web Contoh 10", desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-10/", cat:"Dokumen",  icon:"🧾"},
+  {judul:"Web Contoh 11", desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-11/", cat:"Lainnya",  icon:"🔧"},
+  {judul:"Web Contoh 12", desc:"Deskripsi singkat satu kalimat tentang fungsi web ini.", url:"https://usernamekamu.github.io/web-12/", cat:"Lainnya",  icon:"✨"},
+];
+/* ================================== */
+
+const $ = s => document.querySelector(s);
+let activeCat = "Semua";
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  const list = SITES.filter(s =>
+    (activeCat==="Semua" || s.cat===activeCat) &&
+    (s.judul+" "+s.desc+" "+s.cat).toLowerCase().includes(q));
+  $("#grid").innerHTML = list.map(s => `
+    <a class="card" href="${s.url}" ${OPEN_IN_NEW_TAB?'target="_blank" rel="noopener"':''}>
+      <div class="top"><div class="ico">${s.icon}</div>
+        <div><div class="tag">${s.cat}</div><h3>${s.judul}</h3></div></div>
+      <p>${s.desc}</p>
+      <span class="open">Buka →</span>
+    </a>`).join("");
+  $("#empty").style.display = list.length ? "none" : "block";
+}
+
+function buildChips(){
+  const cats = ["Semua", ...new Set(SITES.map(s=>s.cat))];
+  $("#chips").innerHTML = cats.map(c=>`<button class="chip ${c===activeCat?'on':''}" data-c="${c}">${c}</button>`).join("");
+  $("#statCount").textContent = SITES.length;
+  $("#statCat").textContent = cats.length-1;
+}
+$("#chips").addEventListener("click", e=>{
+  const c = e.target.dataset.c; if(!c) return;
+  activeCat = c; buildChips(); render();
+});
+$("#q").addEventListener("input", render);
+
+/* Tema terang/gelap */
+function setTheme(t){
+  document.documentElement.dataset.theme = t;
+  $("#themeLabel").textContent = t==="dark" ? "Gelap" : "Terang";
+  $("#themeBtn").setAttribute("aria-checked", t==="dark");
+  try{ localStorage.setItem("catka-theme", t); }catch(e){}
+}
+let saved = null;
+try{ saved = localStorage.getItem("catka-theme"); }catch(e){}
+setTheme(saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+$("#themeBtn").addEventListener("click", ()=> setTheme(document.documentElement.dataset.theme==="dark" ? "light" : "dark"));
+
+buildChips(); render();
+</script>
+</body>
+</html>
