@@ -1,4 +1,3 @@
-
 /* Tombol "home" untuk semua web Catka Ujung Timur.
    Cara pakai: tambahkan satu baris ini sebelum </body> di setiap web:
    <script src="https://catkaujungtimur.github.io/home/home-button.js"></script>
