@@ -6,12 +6,12 @@
 <title>Catka Ujung Timur</title>
 <style>
   :root{
-    --bg:#f4f6fb; --surface:#ffffff; --surface2:#eef1f8; --text:#141a2e; --muted:#5d6785;
-    --border:#e1e6f2; --accent:#4f6bff; --accent2:#7c4dff; --shadow:0 6px 24px rgba(30,45,100,.08);
+    --bg:#eaf0fb; --surface:#ffffff; --surface2:#e3eaf8; --text:#0b1535; --muted:#51608a;
+    --border:#d3ddf2; --accent:#1e40af; --accent2:#2563eb; --shadow:0 6px 24px rgba(10,25,80,.10);
   }
   :root[data-theme="dark"]{
-    --bg:#0c1020; --surface:#151b33; --surface2:#1c2342; --text:#eaeefc; --muted:#98a2c8;
-    --border:#252d52; --accent:#7b93ff; --accent2:#a78bfa; --shadow:0 6px 24px rgba(0,0,0,.35);
+    --bg:#040919; --surface:#0b1330; --surface2:#111b42; --text:#e6ecff; --muted:#8e9bc7;
+    --border:#18255a; --accent:#4f86ff; --accent2:#2f5fe0; --shadow:0 8px 28px rgba(0,0,0,.5);
   }
   *{box-sizing:border-box;margin:0}
   body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);
@@ -20,8 +20,10 @@
 
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0}
   .brand{display:flex;align-items:center;gap:12px}
-  .logo{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:#fff;font-weight:800;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:var(--shadow)}
+  .home{height:42px;padding:0 15px;border-radius:12px;display:inline-flex;align-items:center;color:#fff;
+    font-weight:700;font-size:.9rem;letter-spacing:.3px;text-decoration:none;
+    background:linear-gradient(135deg,#1e3a8a,#2563eb);box-shadow:var(--shadow);transition:transform .15s,filter .15s}
+  .home:hover{transform:translateY(-1px);filter:brightness(1.12)}
   .brand h1{font-size:1.1rem;letter-spacing:.2px}
   .brand small{color:var(--muted);font-size:.78rem}
 
@@ -34,12 +36,18 @@
   :root[data-theme="dark"] .switch button{background:var(--accent)}
   :root[data-theme="dark"] .switch button::after{transform:translateX(24px)}
 
-  .hero{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:20px;
-    padding:28px 22px;margin:6px 0 22px;box-shadow:var(--shadow)}
-  .hero h2{font-size:1.5rem;margin-bottom:6px}
-  .hero p{opacity:.92;max-width:560px;font-size:.95rem}
+  /* Hero dengan animasi */
+  .hero{position:relative;overflow:hidden;color:#fff;border-radius:20px;margin:6px 0 22px;
+    min-height:260px;box-shadow:var(--shadow);background:#02040f}
+  #sky{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(90deg,rgba(2,6,22,.72) 0%,rgba(2,6,22,.35) 55%,rgba(2,6,22,0) 85%)}
+  .hero-in{position:relative;z-index:1;padding:28px 22px}
+  .hero h2{font-size:1.5rem;margin-bottom:6px;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+  .hero p{opacity:.92;max-width:520px;font-size:.95rem;text-shadow:0 2px 10px rgba(0,0,0,.6)}
   .stats{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
-  .stat{background:rgba(255,255,255,.18);border-radius:12px;padding:8px 14px;font-size:.82rem}
+  .stat{background:rgba(120,160,255,.16);border:1px solid rgba(140,180,255,.25);backdrop-filter:blur(6px);
+    border-radius:12px;padding:8px 14px;font-size:.82rem}
   .stat b{display:block;font-size:1.2rem}
 
   .tools{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
@@ -70,21 +78,24 @@
 <div class="wrap">
   <header>
     <div class="brand">
-      <div class="logo">C</div>
+      <a class="home" href="https://catkaujungtimur.github.io/home/" aria-label="Kembali ke beranda Catka Ujung Timur">home</a>
       <div><h1>Catka Ujung Timur</h1><small>Kumpulan alat kerja</small></div>
     </div>
     <label class="switch">
-      <span id="themeLabel">Terang</span>
-      <button id="themeBtn" aria-label="Ganti tema terang/gelap" role="switch" aria-checked="false"></button>
+      <span id="themeLabel">Gelap</span>
+      <button id="themeBtn" aria-label="Ganti tema terang/gelap" role="switch" aria-checked="true"></button>
     </label>
   </header>
 
   <section class="hero">
-    <h2>Semua alat kerja, satu pintu.</h2>
-    <p>Pilih alat yang kamu butuhkan di bawah ini. Gunakan pencarian atau kategori untuk menemukannya lebih cepat.</p>
-    <div class="stats">
-      <div class="stat"><b id="statCount">0</b>Total web</div>
-      <div class="stat"><b id="statCat">0</b>Kategori</div>
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <div class="hero-in">
+      <h2>Semua alat kerja, satu pintu.</h2>
+      <p>Pilih alat yang kamu butuhkan di bawah ini. Gunakan pencarian atau kategori untuk menemukannya lebih cepat.</p>
+      <div class="stats">
+        <div class="stat"><b id="statCount">0</b>Total web</div>
+        <div class="stat"><b id="statCat">0</b>Kategori</div>
+      </div>
     </div>
   </section>
 
@@ -150,7 +161,7 @@ $("#chips").addEventListener("click", e=>{
 });
 $("#q").addEventListener("input", render);
 
-/* Tema terang/gelap */
+/* Tema terang/gelap (bawaan: gelap) */
 function setTheme(t){
   document.documentElement.dataset.theme = t;
   $("#themeLabel").textContent = t==="dark" ? "Gelap" : "Terang";
@@ -159,10 +170,152 @@ function setTheme(t){
 }
 let saved = null;
 try{ saved = localStorage.getItem("catka-theme"); }catch(e){}
-setTheme(saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+setTheme(saved || "dark");
 $("#themeBtn").addEventListener("click", ()=> setTheme(document.documentElement.dataset.theme==="dark" ? "light" : "dark"));
 
 buildChips(); render();
+
+/* ====== Animasi langit: galaksi, bumi, kereta ====== */
+(function(){
+  const cv = document.getElementById("sky"), ctx = cv.getContext("2d");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W=0,H=0,R=0,cx=0,cy=0,G=0,stars=[],gal=[],cities=[],links=[];
+  let t=0,last=0,trainX=0;
+  const TL = 132, SPEED = 38;
+  const rnd = (a,b)=>a+Math.random()*(b-a);
+  const horizonY = x => { const dx=x-cx; return cy - Math.sqrt(Math.max(R*R-dx*dx,0)); };
+
+  function init(){
+    R = W*1.15; cx = W*0.42; cy = H*0.70 + R; G = Math.min(W*0.2, H*0.42);
+    stars = Array.from({length:Math.round(W*H/2200)}, ()=>({x:rnd(0,W),y:rnd(0,H*0.78),r:rnd(.3,1.3),ph:rnd(0,6.28),sp:rnd(.6,2.2)}));
+    gal = [];
+    for(let arm=0;arm<2;arm++) for(let i=0;i<240;i++){
+      const f = Math.pow(i/240,.85), r = f*G + rnd(-3,3);
+      gal.push({r, a0: arm*Math.PI + f*4.4 + rnd(-.22,.22), s: rnd(.5,1.5), al: rnd(.35,.9)});
+    }
+    cities = []; links = [];
+    for(let k=0;k<16;k++){
+      const x = rnd(0,W), hy = horizonY(x);
+      const y = hy + rnd(14, Math.max(H-hy-4, 20));
+      if(y>H) continue;
+      const c = {x,y}, pts=[];
+      const n = Math.round(rnd(5,11));
+      for(let j=0;j<n;j++){
+        const p = {x:x+rnd(-26,26), y:y+rnd(-14,14), s:rnd(.8,1.8), ph:rnd(0,6.28)};
+        pts.push(p); cities.push(p);
+      }
+      links.push({c,pts});
+    }
+    trainX = reduce ? W*0.55 : -TL;
+  }
+
+  function resize(){
+    const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio||1,2);
+    W = r.width; H = r.height;
+    cv.width = W*d; cv.height = H*d;
+    ctx.setTransform(d,0,0,d,0,0);
+    init();
+  }
+
+  function draw(){
+    // langit
+    let g = ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,"#01030c"); g.addColorStop(.55,"#050f33"); g.addColorStop(1,"#0a2a70");
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+    // nebula
+    for(let i=0;i<4;i++){
+      const nx = W*(.45+.16*i) + Math.sin(t*.15+i)*14, ny = H*(.18+.1*((i%2)?1:0)) + Math.cos(t*.12+i)*8;
+      const rg = ctx.createRadialGradient(nx,ny,0,nx,ny,W*.2);
+      rg.addColorStop(0, i%2 ? "rgba(110,90,255,.22)" : "rgba(70,140,255,.30)");
+      rg.addColorStop(1,"rgba(40,80,200,0)");
+      ctx.fillStyle = rg; ctx.fillRect(0,0,W,H);
+    }
+
+    // bintang
+    for(const s of stars){
+      const a = .35 + .65*Math.abs(Math.sin(t*s.sp+s.ph));
+      ctx.fillStyle = `rgba(210,225,255,${a})`;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.283); ctx.fill();
+    }
+
+    // bulan kecil
+    const mx = W*.06, my = H*.3;
+    let mg = ctx.createRadialGradient(mx-3,my-3,1,mx,my,11);
+    mg.addColorStop(0,"#cfd8ee"); mg.addColorStop(1,"#3b4a72");
+    ctx.fillStyle = mg; ctx.beginPath(); ctx.arc(mx,my,10,0,6.283); ctx.fill();
+
+    // galaksi
+    const gx = W*.30, gy = H*.24;
+    ctx.save(); ctx.translate(gx,gy); ctx.rotate(-.35); ctx.scale(1,.42);
+    let hg = ctx.createRadialGradient(0,0,0,0,0,G*1.1);
+    hg.addColorStop(0,"rgba(120,170,255,.35)"); hg.addColorStop(1,"rgba(60,100,220,0)");
+    ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(0,0,G*1.1,0,6.283); ctx.fill();
+    for(const p of gal){
+      const a = p.a0 + t*.06;
+      ctx.fillStyle = `rgba(185,212,255,${p.al})`;
+      ctx.beginPath(); ctx.arc(Math.cos(a)*p.r, Math.sin(a)*p.r, p.s*1.5, 0, 6.283); ctx.fill();
+    }
+    let cg = ctx.createRadialGradient(0,0,0,0,0,G*.38);
+    cg.addColorStop(0,"rgba(255,235,190,.95)"); cg.addColorStop(.4,"rgba(255,200,130,.5)"); cg.addColorStop(1,"rgba(255,180,100,0)");
+    ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(0,0,G*.38,0,6.283); ctx.fill();
+    ctx.restore();
+
+    // bumi
+    let eg = ctx.createLinearGradient(0,H*.6,0,H);
+    eg.addColorStop(0,"#0b3f9a"); eg.addColorStop(.35,"#06235f"); eg.addColorStop(1,"#030c26");
+    ctx.fillStyle = eg; ctx.beginPath(); ctx.arc(cx,cy,R,0,6.283); ctx.fill();
+
+    // lampu kota
+    ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R-2,0,6.283); ctx.clip();
+    ctx.lineWidth = .6; ctx.strokeStyle = "rgba(255,185,90,.4)";
+    for(const L of links) for(const p of L.pts){ ctx.beginPath(); ctx.moveTo(L.c.x,L.c.y); ctx.lineTo(p.x,p.y); ctx.stroke(); }
+    for(const p of cities){
+      const a = .6 + .4*Math.sin(t*1.6+p.ph);
+      ctx.fillStyle = `rgba(255,170,70,${.18*a})`;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.s*4,0,6.283); ctx.fill();
+      ctx.fillStyle = `rgba(255,215,130,${a})`;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,6.283); ctx.fill();
+    }
+    ctx.restore();
+
+    // cahaya atmosfer di tepi bumi
+    ctx.save();
+    ctx.strokeStyle = "rgba(90,170,255,.35)"; ctx.lineWidth = 9; ctx.shadowColor = "#3b9bff"; ctx.shadowBlur = 40;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,6.283); ctx.stroke();
+    ctx.strokeStyle = "rgba(170,225,255,.95)"; ctx.lineWidth = 1.8; ctx.shadowBlur = 18;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,6.283); ctx.stroke();
+    ctx.restore();
+
+    // kereta
+    const hx = trainX, hy = horizonY(hx) - 5;
+    const dx = hx-cx, slope = dx/Math.sqrt(Math.max(R*R-dx*dx,1));
+    ctx.save(); ctx.translate(hx,hy); ctx.rotate(Math.atan(slope));
+    for(let i=0;i<8;i++){
+      const x0 = -(i+1)*(TL/8);
+      ctx.fillStyle = "#1a2547"; ctx.fillRect(x0,-4,TL/8-2,5);
+      ctx.fillStyle = "#34508f"; ctx.fillRect(x0,-4,TL/8-2,1.2);
+      ctx.fillStyle = "rgba(255,225,140,.9)";
+      for(let w=0;w<4;w++) ctx.fillRect(x0+2+w*3.6,-2.6,1.8,1.4);
+    }
+    let hl = ctx.createRadialGradient(0,-2,0,0,-2,26);
+    hl.addColorStop(0,"rgba(255,255,255,1)"); hl.addColorStop(.25,"rgba(190,225,255,.75)"); hl.addColorStop(1,"rgba(80,150,255,0)");
+    ctx.fillStyle = hl; ctx.beginPath(); ctx.arc(0,-2,26,0,6.283); ctx.fill();
+    ctx.restore();
+  }
+
+  function frame(ts){
+    const dt = Math.min((ts-last)/1000,.05); last = ts;
+    t += dt; trainX += dt*SPEED;
+    if(trainX > W+40) trainX = -TL-20;
+    draw();
+    requestAnimationFrame(frame);
+  }
+
+  resize();
+  addEventListener("resize", resize);
+  if(reduce){ draw(); } else { requestAnimationFrame(ts=>{ last=ts; frame(ts); }); }
+})();
 </script>
 </body>
 </html>
